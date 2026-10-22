@@ -1,0 +1,19 @@
+
+[
+  {
+    "title": "Example Used Vehicle",
+    "category": "vehicle",
+    "price": "Contact for price",
+    "description": "Sample listing — replace with an actual vehicle.",
+    "image": "",
+    "status": "Example Listing"
+  },
+  {
+    "title": "Example Auto Part",
+    "category": "part",
+    "price": "Contact for price",
+    "description": "Sample listing — replace with an actual auto part.",
+    "image": "",
+    "status": "Example Listing"
+  }
+]
