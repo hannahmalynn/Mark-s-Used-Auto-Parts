@@ -1,11 +1,9 @@
-
 [
   {
-    "title": "Example Used Vehicle",
-    "category": "vehicle",
+    "title": "Engine",
+    "category": "part",
     "price": "Contact for price",
-    "description": "Sample listing — replace with an actual vehicle.",
-    "image": "",
+    "description": "Jeep",
     "status": "Example Listing"
   },
   {
@@ -13,7 +11,13 @@
     "category": "part",
     "price": "Contact for price",
     "description": "Sample listing — replace with an actual auto part.",
-    "image": "",
     "status": "Example Listing"
+  },
+  {
+    "title": "Engine",
+    "category": "part",
+    "price": "Contact for price",
+    "description": "2014 Jeep engine",
+    "status": "Available - Used Good Condition"
   }
 ]
