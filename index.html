@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -204,22 +203,23 @@ footer {
   Add a photo URL in the image field for each item.
 */
 const inventory = [
-  {
-    title: "Example Used Vehicle",
-    category: "vehicle",
-    price: "Contact for price",
-    description: "Replace this example with a vehicle you have for sale.",
-    image: "",
-    status: "Example Listing"
-  },
-  {
-    title: "Example Auto Part",
-    category: "part",
-    price: "Contact for price",
-    description: "Replace this example with an available used auto part.",
-    image: "",
-    status: "Example Listing"
+ 
+let inventory = [];
+
+async function loadInventory() {
+  try {
+    const response = await fetch("data/inventory.json");
+    if (!response.ok) {
+      throw new Error("Could not load inventory");
+    }
+    inventory = await response.json();
+  } catch (error) {
+    console.error("Inventory could not be loaded:", error);
+    inventory = [];
   }
+  renderListings();
+}
+
 ];
 
 const listings = document.getElementById("listings");
@@ -258,7 +258,7 @@ function renderListings() {
 search.addEventListener("input", renderListings);
 category.addEventListener("change", renderListings);
 document.getElementById("year").textContent = new Date().getFullYear();
-renderListings();
+loadInventory();
 </script>
 
 </body>
