@@ -1,8 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#171a1d">
 <title>Mark's Used Auto Parts</title>
 <style>
 :root {
@@ -13,6 +15,7 @@
   --muted: #b8bdc2;
 }
 * { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
 body {
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
@@ -44,6 +47,7 @@ nav a {
   font-weight: bold;
   margin: 0 12px;
 }
+nav a:hover { color: var(--orange); }
 .hero {
   padding: 44px 20px;
   text-align: center;
@@ -65,7 +69,11 @@ nav a {
   border-radius: 4px;
   margin-top: 12px;
 }
-main { max-width: 1150px; margin: auto; padding: 24px 16px; }
+main {
+  max-width: 1150px;
+  margin: auto;
+  padding: 24px 16px;
+}
 .section-title {
   border-left: 5px solid var(--orange);
   padding-left: 12px;
@@ -107,7 +115,7 @@ select { min-width: 165px; }
   display: block;
 }
 .item-content { padding: 16px; }
-.item h3 { margin: 0 0 8px; font-size: 20px; }
+.item h3 { margin: 10px 0 8px; font-size: 20px; }
 .price {
   color: var(--orange);
   font-size: 23px;
@@ -157,24 +165,35 @@ footer {
 
 <section class="hero">
   <h2>Looking for a Deal?</h2>
-  <p>Browse our current selection of used vehicles and auto parts.<br>
-  Inventory changes frequently, so check back often!</p>
+  <p>
+    Browse our current selection of used vehicles and auto parts.<br>
+    Inventory changes frequently, so check back often!
+  </p>
   <a class="button" href="#inventory">Browse Inventory</a>
 </section>
 
 <main id="inventory">
   <h2 class="section-title">Current Inventory</h2>
+
   <div class="filters">
-    <input id="search" type="search" placeholder="Search inventory..." aria-label="Search inventory">
+    <input id="search" type="search"
+      placeholder="Search inventory..."
+      aria-label="Search inventory">
+
     <select id="category" aria-label="Filter by category">
       <option value="all">All Inventory</option>
       <option value="vehicle">Used Vehicles</option>
       <option value="part">Auto Parts</option>
     </select>
   </div>
+
   <div id="listings" class="grid"></div>
-  <p id="empty" class="empty" hidden>No matching listings. Try another search.</p>
-  <p class="description">Please contact us to confirm availability, condition, and pricing before traveling.</p>
+  <p id="empty" class="empty" hidden></p>
+
+  <p class="description">
+    Please contact us to confirm availability, condition, and pricing
+    before traveling.
+  </p>
 </main>
 
 <section id="about" class="contact">
@@ -196,31 +215,7 @@ footer {
 </footer>
 
 <script>
-/*
-  DEMO LISTINGS:
-  These examples are not real inventory.
-  Replace them with your actual vehicles and parts.
-  Add a photo URL in the image field for each item.
-*/
-const inventory = [
- 
 let inventory = [];
-
-async function loadInventory() {
-  try {
-    const response = await fetch("data/inventory.json");
-    if (!response.ok) {
-      throw new Error("Could not load inventory");
-    }
-    inventory = await response.json();
-  } catch (error) {
-    console.error("Inventory could not be loaded:", error);
-    inventory = [];
-  }
-  renderListings();
-}
-
-];
 
 const listings = document.getElementById("listings");
 const search = document.getElementById("search");
@@ -232,32 +227,117 @@ function renderListings() {
   const selected = category.value;
 
   const filtered = inventory.filter(item => {
-    const matchesCategory = selected === "all" || item.category === selected;
-    const searchable = `${item.title} ${item.description} ${item.status}`.toLowerCase();
+    const matchesCategory =
+      selected === "all" || item.category === selected;
+
+    const searchable =
+      `${item.title || ""} ${item.description || ""} ${item.status || ""}`
+        .toLowerCase();
+
     return matchesCategory && searchable.includes(query);
   });
 
-  listings.innerHTML = filtered.map(item => `
-    <article class="item">
-      ${item.image
-        ? `<img src="${item.image}" alt="${item.title}" loading="lazy">`
-        : `<div style="height:190px;display:grid;place-items:center;background:#343a40;color:#b8bdc2">Photo coming soon</div>`}
-      <div class="item-content">
-        <span class="tag">${item.category === "vehicle" ? "Used Vehicle" : "Auto Part"}</span>
-        <h3>${item.title}</h3>
-        <p class="price">${item.price}</p>
-        <p class="description">${item.description}</p>
-        <p class="description">${item.status}</p>
-      </div>
-    </article>
-  `).join("");
+  listings.replaceChildren();
 
-  empty.hidden = filtered.length !== 0;
+  filtered.forEach(item => {
+    const card = document.createElement("article");
+    card.className = "item";
+
+    if (item.image && item.image.trim()) {
+      const img = document.createElement("img");
+      img.src = item.image;
+      img.alt = item.title || "Used item";
+      img.loading = "lazy";
+      img.onerror = () => {
+        img.replaceWith(makePhotoPlaceholder());
+      };
+      card.appendChild(img);
+    } else {
+      card.appendChild(makePhotoPlaceholder());
+    }
+
+    const content = document.createElement("div");
+    content.className = "item-content";
+
+    const tag = document.createElement("span");
+    tag.className = "tag";
+    tag.textContent = item.category === "vehicle"
+      ? "Used Vehicle" : "Auto Part";
+
+    const title = document.createElement("h3");
+    title.textContent = item.title || "Untitled Item";
+
+    const price = document.createElement("p");
+    price.className = "price";
+    price.textContent = item.price || "Contact for price";
+
+    const description = document.createElement("p");
+    description.className = "description";
+    description.textContent = item.description || "";
+
+    content.append(tag, title, price, description);
+
+    if (item.status) {
+      const status = document.createElement("p");
+      status.className = "description";
+      status.textContent = item.status;
+      content.appendChild(status);
+    }
+
+    card.appendChild(content);
+    listings.appendChild(card);
+  });
+
+  empty.hidden = filtered.length > 0;
+
+  if (filtered.length === 0) {
+    empty.textContent = inventory.length === 0
+      ? "No inventory is available right now. Please check back soon."
+      : "No matching listings. Try another search.";
+  }
+}
+
+function makePhotoPlaceholder() {
+  const placeholder = document.createElement("div");
+  placeholder.style.cssText =
+    "height:190px;display:grid;place-items:center;" +
+    "background:#343a40;color:#b8bdc2";
+  placeholder.textContent = "Photo coming soon";
+  return placeholder;
 }
 
 search.addEventListener("input", renderListings);
 category.addEventListener("change", renderListings);
-document.getElementById("year").textContent = new Date().getFullYear();
+
+document.getElementById("year").textContent =
+  new Date().getFullYear();
+
+async function loadInventory() {
+  try {
+    const response = await fetch("/data/inventory.json");
+
+    if (!response.ok) {
+      throw new Error("Inventory file could not be loaded");
+    }
+
+    const data = await response.json();
+
+    if (!Array.isArray(data)) {
+      throw new Error("Inventory data must be a list");
+    }
+
+    inventory = data;
+    renderListings();
+  } catch (error) {
+    console.error("Inventory loading error:", error);
+    inventory = [];
+    listings.replaceChildren();
+    empty.textContent =
+      "We couldn't load the inventory. Please check back soon.";
+    empty.hidden = false;
+  }
+}
+
 loadInventory();
 </script>
 
