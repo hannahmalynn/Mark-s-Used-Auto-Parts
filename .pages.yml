@@ -1,0 +1,36 @@
+
+media: media
+
+content:
+  - name: inventory
+    label: Inventory
+    type: file
+    path: data/inventory.json
+    format: json
+    list: true
+    fields:
+      - name: title
+        label: Item Name
+        type: string
+        required: true
+      - name: category
+        label: Category
+        type: select
+        options:
+          values:
+            - label: Used Vehicle
+              value: vehicle
+            - label: Auto Part
+              value: part
+      - name: price
+        label: Price
+        type: string
+      - name: description
+        label: Description
+        type: text
+      - name: image
+        label: Photo
+        type: image
+      - name: status
+        label: Status
+        type: string
