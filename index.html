@@ -1,1 +1,265 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mark's Used Auto Parts</title>
+<style>
+:root {
+  --dark: #171a1d;
+  --panel: #24292e;
+  --orange: #e87524;
+  --light: #f2f2ed;
+  --muted: #b8bdc2;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: var(--dark);
+  color: var(--light);
+}
+header {
+  padding: 28px 18px;
+  text-align: center;
+  background: #101214;
+  border-bottom: 4px solid var(--orange);
+}
+header h1 {
+  margin: 0;
+  font-size: clamp(28px, 5vw, 46px);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+header h1 span { color: var(--orange); }
+header p { color: var(--muted); margin-bottom: 0; }
+nav {
+  background: var(--panel);
+  padding: 13px;
+  text-align: center;
+}
+nav a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  margin: 0 12px;
+}
+.hero {
+  padding: 44px 20px;
+  text-align: center;
+  background: linear-gradient(135deg, #343a40, #171a1d);
+}
+.hero h2 {
+  font-size: clamp(25px, 4vw, 38px);
+  margin: 0 0 12px;
+  text-transform: uppercase;
+}
+.hero p { color: var(--muted); line-height: 1.6; }
+.button {
+  display: inline-block;
+  background: var(--orange);
+  color: #111;
+  font-weight: bold;
+  text-decoration: none;
+  padding: 13px 20px;
+  border-radius: 4px;
+  margin-top: 12px;
+}
+main { max-width: 1150px; margin: auto; padding: 24px 16px; }
+.section-title {
+  border-left: 5px solid var(--orange);
+  padding-left: 12px;
+  text-transform: uppercase;
+  margin-top: 12px;
+}
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 20px 0;
+}
+input, select {
+  background: #fff;
+  color: #222;
+  padding: 12px;
+  border: 1px solid #777;
+  border-radius: 4px;
+  font-size: 16px;
+}
+input { flex: 1; min-width: 190px; }
+select { min-width: 165px; }
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(245px, 1fr));
+  gap: 18px;
+}
+.item {
+  background: var(--panel);
+  border: 1px solid #41474d;
+  border-radius: 6px;
+  overflow: hidden;
+}
+.item img {
+  width: 100%;
+  height: 190px;
+  object-fit: cover;
+  background: #343a40;
+  display: block;
+}
+.item-content { padding: 16px; }
+.item h3 { margin: 0 0 8px; font-size: 20px; }
+.price {
+  color: var(--orange);
+  font-size: 23px;
+  font-weight: bold;
+  margin: 10px 0;
+}
+.tag {
+  display: inline-block;
+  background: #3a4147;
+  padding: 5px 8px;
+  border-radius: 3px;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+.description { color: var(--muted); line-height: 1.5; }
+.contact {
+  margin-top: 35px;
+  padding: 28px 20px;
+  text-align: center;
+  background: #24292e;
+  border-top: 3px solid var(--orange);
+}
+footer {
+  text-align: center;
+  padding: 22px;
+  color: var(--muted);
+  font-size: 13px;
+}
+.empty { color: var(--muted); padding: 20px 0; }
+@media (max-width: 480px) {
+  nav a { display: inline-block; margin: 6px; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Mark's <span>Used Auto Parts</span></h1>
+  <p>Used Vehicles • Quality Used Parts • Fair Prices</p>
+</header>
+
+<nav>
+  <a href="#inventory">Inventory</a>
+  <a href="#about">About Us</a>
+  <a href="#contact">Contact</a>
+</nav>
+
+<section class="hero">
+  <h2>Looking for a Deal?</h2>
+  <p>Browse our current selection of used vehicles and auto parts.<br>
+  Inventory changes frequently, so check back often!</p>
+  <a class="button" href="#inventory">Browse Inventory</a>
+</section>
+
+<main id="inventory">
+  <h2 class="section-title">Current Inventory</h2>
+  <div class="filters">
+    <input id="search" type="search" placeholder="Search inventory..." aria-label="Search inventory">
+    <select id="category" aria-label="Filter by category">
+      <option value="all">All Inventory</option>
+      <option value="vehicle">Used Vehicles</option>
+      <option value="part">Auto Parts</option>
+    </select>
+  </div>
+  <div id="listings" class="grid"></div>
+  <p id="empty" class="empty" hidden>No matching listings. Try another search.</p>
+  <p class="description">Please contact us to confirm availability, condition, and pricing before traveling.</p>
+</main>
+
+<section id="about" class="contact">
+  <h2>About Mark's Used Auto Parts</h2>
+  <p>We're here to help you find used vehicles and parts at fair prices.</p>
+  <p>Have a question about an item? Get in touch before making the trip.</p>
+</section>
+
+<section id="contact" class="contact">
+  <h2>Contact Us</h2>
+  <p>Call or visit us to ask about current inventory and availability.</p>
+  <p><strong>Phone:</strong> ADD YOUR BUSINESS PHONE NUMBER</p>
+  <p><strong>Address:</strong> ADD YOUR BUSINESS ADDRESS</p>
+</section>
+
+<footer>
+  <p>© <span id="year"></span> Mark's Used Auto Parts</p>
+  <p>Inventory and prices are subject to change.</p>
+</footer>
+
+<script>
+/*
+  DEMO LISTINGS:
+  These examples are not real inventory.
+  Replace them with your actual vehicles and parts.
+  Add a photo URL in the image field for each item.
+*/
+const inventory = [
+  {
+    title: "Example Used Vehicle",
+    category: "vehicle",
+    price: "Contact for price",
+    description: "Replace this example with a vehicle you have for sale.",
+    image: "",
+    status: "Example Listing"
+  },
+  {
+    title: "Example Auto Part",
+    category: "part",
+    price: "Contact for price",
+    description: "Replace this example with an available used auto part.",
+    image: "",
+    status: "Example Listing"
+  }
+];
+
+const listings = document.getElementById("listings");
+const search = document.getElementById("search");
+const category = document.getElementById("category");
+const empty = document.getElementById("empty");
+
+function renderListings() {
+  const query = search.value.toLowerCase().trim();
+  const selected = category.value;
+
+  const filtered = inventory.filter(item => {
+    const matchesCategory = selected === "all" || item.category === selected;
+    const searchable = `${item.title} ${item.description} ${item.status}`.toLowerCase();
+    return matchesCategory && searchable.includes(query);
+  });
+
+  listings.innerHTML = filtered.map(item => `
+    <article class="item">
+      ${item.image
+        ? `<img src="${item.image}" alt="${item.title}" loading="lazy">`
+        : `<div style="height:190px;display:grid;place-items:center;background:#343a40;color:#b8bdc2">Photo coming soon</div>`}
+      <div class="item-content">
+        <span class="tag">${item.category === "vehicle" ? "Used Vehicle" : "Auto Part"}</span>
+        <h3>${item.title}</h3>
+        <p class="price">${item.price}</p>
+        <p class="description">${item.description}</p>
+        <p class="description">${item.status}</p>
+      </div>
+    </article>
+  `).join("");
+
+  empty.hidden = filtered.length !== 0;
+}
+
+search.addEventListener("input", renderListings);
+category.addEventListener("change", renderListings);
+document.getElementById("year").textContent = new Date().getFullYear();
+renderListings();
+</script>
+
+</body>
+</html>
